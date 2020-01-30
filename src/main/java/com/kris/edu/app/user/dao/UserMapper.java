@@ -12,4 +12,6 @@ public interface UserMapper {
     List<UserBean> selectUserList();
 
     int addNewUser(@Param("username") String username, @Param("password") String password, @Param("nickname") String nickname);
+
+    List<UserBean> validateUser(@Param("usernameEnCode") String usernameEnCode);
 }

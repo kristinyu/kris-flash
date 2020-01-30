@@ -8,3 +8,8 @@ spring:
     database: 0
     host: 127.0.0.1
     port: 6379
+server:
+  port: 9090
+
+user.list.redis.string: userList
+user.list.redis.string.time: 60

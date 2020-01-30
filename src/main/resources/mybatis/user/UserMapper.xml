@@ -24,4 +24,13 @@
         t_user
     </select>
 
+    <select id="validateUser" resultType="com.kris.edu.app.user.bean.UserBean">
+       select
+       *
+       from
+       t_user
+       where
+       username=#{usernameEnCode}
+    </select>
+
 </mapper>

@@ -3,6 +3,10 @@ package com.kris.edu.app.user.controller;
 
 import com.kris.edu.app.user.bean.UserBean;
 import com.kris.edu.app.user.service.IUserService;
+import com.kris.edu.framwork.BaseResult.BaseResult;
+import com.kris.edu.framwork.BaseResult.PageResult;
+import com.kris.edu.framwork.Enum.EduErrorEnum;
+import com.kris.edu.framwork.Enum.EduSuccessEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -16,25 +20,24 @@ public class UserContoller {
     @Autowired
     private IUserService userService;
 
-    @Autowired
-    private RedisTemplate<String, String> redisTemplate;
-
     @GetMapping("list")
-    public List<UserBean> queryUserCount(){
+    public PageResult queryUserCount(){
         return userService.getUserCountList();
     }
 
     @PostMapping("add")
-    public String addNewUser(@RequestParam("username")String username,
-                             @RequestParam("password")String password,
-                             @RequestParam("nickname")String nickname){
-
-        boolean result = userService.addNewUser(username,password,nickname);
-
-        if (result){
-            return "success";
-        }else{
-            return "failed";
+    public BaseResult addNewUser(@RequestParam("username")String username,
+                                 @RequestParam("password")String password,
+                                 @RequestParam("nickname")String nickname) {
+        Integer result = userService.addNewUser(username, password, nickname);
+        switch (result) {
+            case 1:
+                return BaseResult.operateSuccess(EduSuccessEnum.NEW_USER_ADD_SUCCESSFULLY);
+            case 2:
+                return BaseResult.operateFailed(EduErrorEnum.NEW_USER_ADD_FAILED);
+            case 3:
+                return BaseResult.operateFailed(EduErrorEnum.DUPLIACTE_USER_ADD_FAILED);
         }
+           return BaseResult.operateFailed(EduErrorEnum.NEW_USER_ADD_FAILED);
     }
 }

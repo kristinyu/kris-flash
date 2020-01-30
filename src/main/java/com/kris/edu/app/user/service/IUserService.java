@@ -1,13 +1,14 @@
 package com.kris.edu.app.user.service;
 
 import com.kris.edu.app.user.bean.UserBean;
+import com.kris.edu.framwork.BaseResult.PageResult;
 
 import java.util.List;
 
 public interface IUserService {
 
-    List<UserBean> getUserCountList();
+    PageResult getUserCountList();
 
-    boolean addNewUser(String username, String password, String nickname);
+    Integer addNewUser(String username, String password, String nickname);
 
 }
