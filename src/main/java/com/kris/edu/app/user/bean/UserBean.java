@@ -16,4 +16,5 @@ public class UserBean {
     private String password;
     private String nickname;
     private Date createTime;
+    private String phone;
 }

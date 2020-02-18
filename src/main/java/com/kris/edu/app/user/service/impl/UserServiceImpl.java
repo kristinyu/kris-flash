@@ -1,6 +1,8 @@
 package com.kris.edu.app.user.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.kris.edu.app.user.bean.UserBean;
 import com.kris.edu.app.user.dao.UserMapper;
 import com.kris.edu.app.user.service.IUserService;
@@ -31,7 +33,7 @@ public class UserServiceImpl implements IUserService {
     private RedisTemplate<String, String> redisTemplate;
 
     @Override
-    public PageResult getUserCountList() {
+    public PageResult getUserCountList(Integer pageSize,Integer pageNum) {
 //        if (redisTemplate.hasKey(USER_LIST_STRING)){
 //            return JSON.parseObject(redisTemplate.opsForValue().get(USER_LIST_STRING),PageResult.class);
 //        }else{
@@ -40,9 +42,9 @@ public class UserServiceImpl implements IUserService {
 //            redisTemplate.opsForValue().set(USER_LIST_STRING,JSON.toJSONString(PageResult.success(total, list)),USER_LIST_STRING_TIME_DURATION, TimeUnit.SECONDS);
 //            return PageResult.success(total, list);
 //        }
-        int total = userMapper.selectUserCount();
-        List<UserBean> list = userMapper.selectUserList();
-        return PageResult.success(total, list);
+        PageInfo<UserBean> userBeanLists = PageHelper.startPage(pageNum, pageSize).doSelectPageInfo(() -> userMapper.selectUserList());
+        userBeanLists.getList().stream().forEach(a->a.setPhone(AESUtils.decript(a.getPhone())));
+        return PageResult.success( userBeanLists.getTotal(), userBeanLists.getList());
     }
 
     @Override

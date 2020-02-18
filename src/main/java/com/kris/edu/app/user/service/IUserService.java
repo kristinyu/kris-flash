@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IUserService {
 
-    PageResult getUserCountList();
+    PageResult getUserCountList(Integer pageSize,Integer pageNum);
 
     Integer addNewUser(String username, String password, String nickname,String phone);
 

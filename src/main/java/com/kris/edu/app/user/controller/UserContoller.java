@@ -27,8 +27,9 @@ public class UserContoller {
     private IUserService userService;
 
     @GetMapping("list")
-    public PageResult queryUserCount(){
-        return userService.getUserCountList();
+    public PageResult queryUserCount(@RequestParam("pageSize") Integer pageSize,
+                                     @RequestParam("pageNum") Integer pageNum){
+        return userService.getUserCountList(pageSize,pageNum);
     }
 
     @PostMapping("add")
