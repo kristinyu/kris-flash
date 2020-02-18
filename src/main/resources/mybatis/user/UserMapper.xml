@@ -5,9 +5,9 @@
     <insert id="addNewUser">
       insert into
       t_user
-      (username,nickname,password)
+      (username,nickname,password,phone)
       values
-      (#{username},#{nickname},#{password})
+      (#{username},#{nickname},#{password},#{phone})
     </insert>
 
     <select id="selectUserCount" resultType="java.lang.Integer">

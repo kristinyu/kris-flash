@@ -9,6 +9,6 @@ public interface IUserService {
 
     PageResult getUserCountList();
 
-    Integer addNewUser(String username, String password, String nickname);
+    Integer addNewUser(String username, String password, String nickname,String phone);
 
 }

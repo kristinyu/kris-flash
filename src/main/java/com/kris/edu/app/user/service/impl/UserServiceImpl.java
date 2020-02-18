@@ -5,6 +5,7 @@ import com.kris.edu.app.user.bean.UserBean;
 import com.kris.edu.app.user.dao.UserMapper;
 import com.kris.edu.app.user.service.IUserService;
 import com.kris.edu.framwork.BaseResult.PageResult;
+import com.kris.edu.utils.AESUtils;
 import com.kris.edu.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,14 +46,15 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public Integer addNewUser(String username, String password, String nickname) {
+    public Integer addNewUser(String username, String password, String nickname,String phone) {
         String usernameEnCode = MD5Util.encoder(username);
         String passwordEnCode = MD5Util.encoder(password);
+        String asePhone = AESUtils.encript(phone);
         List<UserBean> userBean = userMapper.validateUser(usernameEnCode);
         if (userBean.size()>=1){
             return 3;
         }else{
-            return userMapper.addNewUser(usernameEnCode, passwordEnCode, nickname) > 0 ? 1 : 2;
+            return userMapper.addNewUser(usernameEnCode, passwordEnCode, nickname,asePhone) > 0 ? 1 : 2;
         }
     }
 }
